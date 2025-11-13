@@ -7,11 +7,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 4.5 - Complex App Migrations (Planned)
-- Calculator apps with Vuetify 0.13 → 3.x migration
-- Vuelidate 0.5 → 2.x migration
-- Full-stack applications (vue-shop, firebase integrations)
-- TypeScript adoption (optional)
+---
+
+## [3.0.0-beta.2] - November 13, 2025
+
+### Phase 4.5 - Complex Calculator Migrations (Planning)
+
+**Status:** Planning Complete - Awaiting Strategy Decision
+
+#### Added
+- **[docs/PHASE-4.5-ROADMAP.md](docs/PHASE-4.5-ROADMAP.md)** - Comprehensive migration roadmap for 6 calculator apps
+- **phase-4.5-complex-calculators** branch created for migration work
+
+#### Scope
+6 calculator applications deferred from Phase 4 due to complexity:
+
+**Vuetify 0.13 Apps (5 projects):**
+- [ready-vuejs/concrete-calculator/](ready-vuejs/concrete-calculator/) - Foundation concrete calculator
+- [ready-vuejs/brick-calculator/](ready-vuejs/brick-calculator/) - Brick quantity calculator (i18n)
+- [ready-vuejs/loan-calculator/](ready-vuejs/loan-calculator/) - Loan payment calculator
+- [ready-vuejs/credit-calculator/](ready-vuejs/credit-calculator/) - Credit calculator
+- [ready-vuejs/fuel-consumption/](ready-vuejs/fuel-consumption/) - Fuel consumption calculator
+
+**Quasar 0.13 Apps (1 project):**
+- [ready-vuejs/weight-calc/](ready-vuejs/weight-calc/) - Weight calculator
+
+#### Migration Challenges
+Each app requires:
+- ⚠️ **Vuetify 0.13 → 3.x** - Complete component API rewrite
+- ⚠️ **Vuelidate 0.5 → 2.x** - Validation system migration
+- ⚠️ **Webpack 2 → Vite** - Build tool modernization
+- ⚠️ **Vue 2.3 → Vue 3.4** - Framework upgrade
+- ⏱️ **Estimated:** 8-12 hours per app
+
+#### Proposed Strategy
+**Recommendation:** Tailwind CSS + VeeValidate 4 + DaisyUI
+
+**Rationale:**
+- Avoids Vuetify's breaking changes
+- Modern, industry-standard stack
+- Better Vue 3 integration
+- Lighter bundle sizes
+- Educational value for learning modern patterns
+
+**Alternative Strategies Documented:**
+1. Complete Vuetify 3 migration (faithful port)
+2. Alternative UI framework (PrimeVue, Element Plus, etc.)
+3. Tailwind CSS + VeeValidate (recommended)
+
+#### Timeline (If Approved)
+- **Week 1:** Research & POCs (compare strategies)
+- **Week 2-3:** Pilot migration (concrete-calculator)
+- **Week 4-7:** Scale to remaining 5 apps
+- **Week 8:** Integration testing & documentation
+
+**Total Estimated Time:** 8 weeks (80-100 hours)
+
+#### Decision Required
+Choose migration approach:
+- **Option A:** Full Phase 4.5 migration (8-week commitment)
+- **Option B:** Pilot only (concrete-calculator as learning exercise)
+- **Option C:** Archive on Vue 2.7 (skip Phase 4.5, focus on Tier 3 projects)
+
+#### Future Phases
+- **Phase 5:** Tier 3 Complex Projects (todo-app, vue-shop, firebase-vuejs, etc.)
+- **Phase 6:** TypeScript adoption (optional)
 
 ---
 
