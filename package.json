@@ -1,0 +1,27 @@
+{
+  "name": "vue-basics",
+  "version": "1.0.0",
+  "description": "In this repository I put all the Vue projects I worked on using Laracasts.com and other workshops on the web to learn Vue.js .  Here is the list of the current projects I am working on and those that are done:",
+  "main": "test-vue3-projects.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasperf/vue-basics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jasperf/vue-basics/issues"
+  },
+  "homepage": "https://github.com/jasperf/vue-basics#readme",
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  }
+}
