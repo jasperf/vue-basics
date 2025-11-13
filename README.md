@@ -1,20 +1,39 @@
 # VueJS Basics
 
-In this repository I put all the Vue projects I worked on using Laracasts.com and other workshops on the web to learn Vue.js .  Here is the list of the current projects I am working on and those that are done:
+In this repository I put all the Vue projects I worked on using Laracasts.com and other workshops on the web to learn Vue.js.
 
-- Attribute and Class Binding - v-bind
+## 🎉 Vue 3 Migration Status
+
+**12 projects migrated to Vue 3** with automated testing! See [CHANGELOG.md](CHANGELOG.md) for details.
+
+### ✅ Vue 3 Ready (CDN-based)
+
+- **Attribute and Class Binding** - v-bind directive (Vue 3)
+- **Basic Data Binding** - v-model two-way binding (Vue 3)
+- **Component within Component** - Nested components (Vue 3)
+- **Component Modal** - Modal with events (Vue 3)
+- **Component Tabs** - Tabs with provide/inject (Vue 3)
+- **Component with Message** - Message component (Vue 3)
+- **Components** - Basic component patterns (Vue 3)
+- **Computed Properties** - Computed properties & caching (Vue 3)
+- **Event Listeners** - v-on directive (Vue 3)
+- **Lists** - v-for list rendering (Vue 3)
+- **Twitter** - Twitter-style interface (Vue 3)
+- **Drag and Drop** - Custom directive (Vue 3 + Vue 1.x)
+
+### 🔧 Vue 2.7 (Webpack Projects)
+
 - Axios - Promised Based HTTP and VueJS
-- Basic Data Binding: v-model
-- Component within Component
-- Component Modal
-- Component Tabs
-- Component with message
-- Components - 101
-- Computed Properties & Caching
-- Event Listeners: v-on
-- To Do App
-- Twitter
-- Lists:v-for
+- To Do App - Full Vue CLI project with tests
+- Vue CLI Webpack Project - Router integration
+- Vue Shop - MEVN stack e-commerce
+
+### 📊 Project Status Summary
+
+- **Vue 3:** 12 projects (all tested ✅)
+- **Vue 2.7:** 4 major projects
+- **Test Coverage:** 6 projects with Playwright tests
+- **Pass Rate:** 100%
 
 ## Attribute and Class Binding - v-bind
 In this workshop work with ```v-bind```. We use it to change the class and attributes of html tags to create new state.
