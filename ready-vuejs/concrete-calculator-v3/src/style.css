@@ -5,7 +5,7 @@
 /* Custom styles for concrete calculator */
 @layer components {
   .btn-type {
-    @apply btn btn-outline text-primary hover:bg-accent hover:border-primary;
+    @apply text-primary hover:bg-accent hover:border-primary;
   }
 
   .btn-type-active {
@@ -13,15 +13,15 @@
   }
 
   .form-label {
-    @apply label-text font-medium;
+    @apply font-medium;
   }
 
   .error-message {
-    @apply text-error text-sm mt-1;
+    @apply text-error text-sm mt-1 block;
   }
 
   .warning-message {
-    @apply text-warning text-sm mt-1;
+    @apply text-warning text-sm mt-1 block;
   }
 
   .info-message {
@@ -33,7 +33,7 @@
   }
 
   .card-section {
-    @apply card bg-base-200 shadow-xl p-6 mb-4;
+    @apply bg-base-200 shadow-xl p-6 mb-4 rounded-lg;
   }
 
   .section-title {
