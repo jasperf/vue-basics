@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Vue 3 Drag And Drop</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <style>
+    /* Prevent the text contents of draggable elements from being selectable. */
+    [draggable] {
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+      /* Required to make elements draggable in old WebKit */
+      -khtml-user-drag: element;
+      -webkit-user-drag: element;
+    }
+    li {
+      color: black;
+      padding: 10px;
+      margin: 5px 0;
+      background: #f0f0f0;
+      border-radius: 4px;
+      cursor: move;
+    }
+    .dragging {
+      opacity: 0.8;
+      color: #6894D1;
+      background: #e0e0e0;
+    }
+    .drag-over {
+      text-decoration: underline;
+    }
+    .drag-enter {
+      color: #C93742;
+      border: 2px dashed #C93742;
+    }
+    .image {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .image img {
+      cursor: move;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <h3>Some Tasks (Drag to Reorder)</h3>
+    <ul>
+      <li v-for="(task, index) in tasks" :key="task.id" :data-index="index"
+        v-drag-and-drop="{
+          dragStart: 'handleDragStart',
+          dragOver: 'handleDragOver',
+          dragEnter: 'handleDragEnter',
+          dragLeave: 'handleDragLeave',
+          dragEnd: 'handleDragEnd',
+          drop: 'handleDrop',
+          drag: 'handleDrag'
+        }">
+        <input type="checkbox" v-model="task.completed">
+        <strong>{{ task.title }}</strong>
+      </li>
+    </ul>
+    <pre>{{ loggedEvent }}</pre>
+    <h3>Some Images (Drag to Reorder)</h3>
+    <div class="image" v-for="(image, index) in images" :key="image.name"
+      v-drag-and-drop="{
+        drop: 'handleImageDrop'
+      }">
+      <img :src="image.src" :data-index="index" :title="image.name" width="100" height="100">
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="vue3.drag-and-drop.js"></script>
+  <script>
+    const { createApp } = Vue;
+
+    const app = createApp({
+      data() {
+        return {
+          loggedEvent: '',
+          tasks: [
+            {"id":96,"title":"Task 8","completed":false},
+            {"id":12,"title":"Task 1","completed":true},
+            {"id":24,"title":"Task 2","completed":false},
+            {"id":36,"title":"Task 3","completed":true},
+            {"id":48,"title":"Task 4","completed":false},
+            {"id":60,"title":"Task 5","completed":true},
+            {"id":72,"title":"Task 6","completed":false},
+            {"id":84,"title":"Task 7","completed":true},
+            {"id":0,"title":"Task 0","completed":false},
+            {"id":108,"title":"Task 9","completed":true}
+          ],
+          images: [
+            {"name":"Image 1","src":"https://placehold.co/100/000000/ffffff"},
+            {"name":"Image 2","src":"https://placehold.co/100/C93742/ffffff"},
+            {"name":"Image 3","src":"https://placehold.co/100/6894D1/ffffff"}
+          ]
+        }
+      },
+      mounted() {
+        console.log('App mounted');
+      },
+      methods: {
+        handleDragStart(elem) {
+          this.loggedEvent = 'handleDragStart';
+        },
+        handleDragOver(elem) {
+          this.loggedEvent = 'handleDragOver';
+        },
+        handleDragEnter(elem) {
+          this.loggedEvent = 'handleDragEnter';
+        },
+        handleDragLeave(elem) {
+          this.loggedEvent = 'handleDragLeave';
+        },
+        handleDragEnd(elem) {
+          this.loggedEvent = 'handleDragEnd';
+        },
+        handleDrop(itemOne, itemTwo) {
+          const indexOne = parseInt(itemOne.getAttribute('data-index'));
+          const indexTwo = parseInt(itemTwo.getAttribute('data-index'));
+
+          console.log('handleDrop', indexOne, indexTwo);
+          this.loggedEvent = 'handleDrop';
+
+          // Swap tasks
+          const temp = this.tasks[indexOne];
+          this.tasks[indexOne] = this.tasks[indexTwo];
+          this.tasks[indexTwo] = temp;
+        },
+        handleImageDrop(itemOne, itemTwo) {
+          const indexOne = parseInt(itemOne.getAttribute('data-index'));
+          const indexTwo = parseInt(itemTwo.getAttribute('data-index'));
+
+          console.log('handleImageDrop', indexOne, indexTwo);
+          this.loggedEvent = 'handleImageDrop';
+
+          // Swap images
+          const temp = this.images[indexOne];
+          this.images[indexOne] = this.images[indexTwo];
+          this.images[indexTwo] = temp;
+        },
+        handleDrag(elem) {
+          this.loggedEvent = 'handleDrag';
+        }
+      }
+    });
+
+    app.use(DragAndDrop);
+    app.mount('#app');
+  </script>
+</body>
+</html>

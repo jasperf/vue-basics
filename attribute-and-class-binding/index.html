@@ -10,14 +10,19 @@
 </div>
 
 
-	<script src="https://unpkg.com/vue"></script>
-	<script> 
-		var app = new Vue({ // new Vue instance inside global scope of app
-			el: '#root',
-			data: { 
-				title: 'Now the title is being set through JavaScript'
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script>
+		const { createApp } = Vue;
+
+		const app = createApp({
+			data() {
+				return {
+					title: 'Now the title is being set through JavaScript'
+				}
 			}
 		});
+
+		app.mount('#root');
 	</script>
 
 </body>

@@ -15,20 +15,25 @@
 </div>
 
 
-	<script src="https://unpkg.com/vue"></script>
-	<script> 
-		var app = new Vue({ 
-			el: '#root',
-			data: { 
-				message: 'Hello World'
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script>
+		const { createApp } = Vue;
+
+		const app = createApp({
+			data() {
+				return {
+					message: 'Hello World'
+				}
 			},
 
-			computed:{
+			computed: {
 				reversedMessage() {
 					return this.message.split('').reverse('').join('');
 				}
 			}
 		});
+
+		app.mount('#root');
 	</script>
 
 </body>

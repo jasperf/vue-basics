@@ -11,16 +11,19 @@
 </div>
 
 
-	<script src="https://unpkg.com/vue"></script>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 	<script>
-		let data = {
-			message: 'Hello World'
-		};
-		
-		new Vue({
-			el: '#root',
-			data:data
+		const { createApp } = Vue;
+
+		const app = createApp({
+			data() {
+				return {
+					message: 'Hello World'
+				}
+			}
 		});
+
+		app.mount('#root');
 	</script>
 
 </body>

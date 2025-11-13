@@ -1,14 +1,17 @@
 // Component must be registered before Vue instance
-Vue.component('task-list', { 
+const { createApp } = Vue;
+
+const app = createApp({});
+
+// Register components on the app instance
+app.component('task-list', {
 	template: '<ul><slot></slot></ul>'
-	// data Must Be a Function		
+	// data Must Be a Function
 });
 
-Vue.component('task', { 
+app.component('task', {
 	template: '<li><slot></slot></li>'
-	// data Must Be a Function		
+	// data Must Be a Function
 });
 
-new Vue({
-	el: '#root'
-})
+app.mount('#root');

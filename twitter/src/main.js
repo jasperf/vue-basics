@@ -1,11 +1,16 @@
-new Vue({
-  el: '#twitterVue',
-  data: {
-   tweet: ''
+const { createApp } = Vue;
+
+const app = createApp({
+  data() {
+    return {
+      tweet: ''
+    }
   },
   computed: {
-    tweetIsEmpty: function() {
-      return this.tweet.length == 0;
+    tweetIsEmpty() {
+      return this.tweet.length === 0;
     }
   }
 });
+
+app.mount('#twitterVue');

@@ -1,21 +1,25 @@
 // Component must be registered before Vue instance
-// top to bottom component nesting can be used where the top can 
+// top to bottom component nesting can be used where the top can
 // use html tags introduced by the bottom
-Vue.component('task-list', { 
+const { createApp } = Vue;
+
+const app = createApp({});
+
+app.component('task-list', {
 	//[Vue warn]: Error compiling template:
 	//<task v-for="task in tasks">{{task.taks}}</task>
 	//- Cannot use v-for on stateful component root element because it renders multiple elements.
 	//found in ---> <TaskList><Root> so use a root element dummy div
 	template: `
 		<div>
-		<task v-for="task in tasks" :key="task.id">{{ task.task }}</task>
+		<task v-for="task in tasks" :key="task.task">{{ task.task }}</task>
 		</div>
 		`,
 	// data Must Be a Function
-	
+
 	data() {
 		return {
-			tasks: [ // an aray of tasks
+			tasks: [ // an array of tasks
 				{task: 'Go to the store', complete: true},
 				{task: 'Check email', complete: false},
 				{task: 'Go to work', complete: true},
@@ -25,11 +29,9 @@ Vue.component('task-list', {
 	}
 });
 
-Vue.component('task', { 
+app.component('task', {
 	template: '<li><slot></slot></li>'
-	// data Must Be a Function		
+	// data Must Be a Function
 });
 
-new Vue({
-	el: '#root'
-})
+app.mount('#root');

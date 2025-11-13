@@ -1,13 +1,16 @@
-'use strict';
+const { createApp } = Vue;
 
-new Vue({
-  el: '#twitterVue',
-  data: {
-    tweet: ''
+const app = createApp({
+  data() {
+    return {
+      tweet: ''
+    }
   },
   computed: {
-    tweetIsEmpty: function tweetIsEmpty() {
-      return this.tweet.length == 0;
+    tweetIsEmpty() {
+      return this.tweet.length === 0;
     }
   }
 });
+
+app.mount('#twitterVue');

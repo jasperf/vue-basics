@@ -16,15 +16,20 @@
 </div>
 
 
-	<script src="https://unpkg.com/vue"></script>
-	<script> 
-		var app = new Vue({ // new Vue instance inside global scope of app
-			el: '#root', // root element
-			data: { // data
-				names: ['Joe', 'Mary', 'John'] // array with elements
-				//try app.names.push('Jeremiah')
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script>
+		const { createApp } = Vue;
+
+		const app = createApp({ // new Vue instance inside global scope of app
+			data() { // data must be a function
+				return {
+					names: ['Joe', 'Mary', 'John'] // array with elements
+					//try app.names.push('Jeremiah')
+				}
 			}
 		});
+
+		app.mount('#root');
 	</script>
 
 </body>
