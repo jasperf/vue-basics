@@ -1,10 +1,14 @@
 // Component must be registered before Vue instance
-Vue.component('message', { 
-	props: ['title', 'body'], 
+const { createApp } = Vue;
+
+const app = createApp({});
+
+app.component('message', {
+	props: ['title', 'body'],
 	data() {
 		return {
-		isVisible: true
-	};
+			isVisible: true
+		};
 	},
 	// props here not inside the params for the component!
 	//  As you can see you can use more custom tags this way
@@ -24,11 +28,9 @@ Vue.component('message', {
 
 	methods: {
 		hideModal() {
-			this.isVisible =  false;
+			this.isVisible = false;
 		}
 	}
 });
 
-new Vue({
-	el: '#root'
-})
+app.mount('#root');
