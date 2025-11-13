@@ -2,6 +2,13 @@
 
 A directive for providing drag and drop capabilities to elements and data.
 
+## Vue 3 Support
+
+This repository now includes Vue 3 support!
+
+- **Vue 1.x version:** `vue.drag-and-drop.js` + `example.html`
+- **Vue 3 version:** `vue3.drag-and-drop.js` + `example-vue3.html`
+
 ### Install
 
 Available through `npm install vue-drag-and-drop` or include as an inline script, like in `example.html`.
@@ -23,7 +30,19 @@ You can load up the `example.html` file here to test the directive.
 
 ### Usage
 
-Here is how you might typically use this directive:
+#### Vue 3 Usage
+
+```html
+<li v-for="(task, index) in tasks" :key="task.id" :data-index="index"
+  v-drag-and-drop="{
+    dragStart: 'handleDragStart',
+    drop: 'handleDrop'
+  }">
+  {{ task.title }}
+</li>
+```
+
+#### Vue 1.x Usage (Legacy)
 
 ```html
 <li v-for="task in tasks" id="{{ $index }}" v-drag-and-drop drop="handleDrop">{{ task.title }}</li>
