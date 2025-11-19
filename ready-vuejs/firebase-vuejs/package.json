@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "firebase": "^9.15.0",
+    "firebase": "^12.5.0",
     "font-awesome": "^4.7.0",
     "node-sass": "^4.5.2",
     "pug": "^2.0.0-beta.12",
