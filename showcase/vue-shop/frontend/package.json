@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "vee-validate": "^2.2.15",
-    "vue": "^2.7.16",
+    "vue": "^3.5.25",
     "vue-router": "^3.6.5"
   },
   "devDependencies": {
