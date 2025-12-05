@@ -1,0 +1,143 @@
+name: Dependabot PR Checks
+
+on:
+  pull_request:
+    paths:
+      - 'showcase/**'
+
+jobs:
+  # Determine which project was modified
+  detect-project:
+    runs-on: ubuntu-latest
+    outputs:
+      project-path: ${{ steps.detect.outputs.project-path }}
+      project-name: ${{ steps.detect.outputs.project-name }}
+      has-build: ${{ steps.detect.outputs.has-build }}
+      has-test: ${{ steps.detect.outputs.has-test }}
+      has-lint: ${{ steps.detect.outputs.has-lint }}
+      skip-checks: ${{ steps.detect.outputs.skip-checks }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect modified project
+        id: detect
+        run: |
+          # Get changed files from git diff
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          # Find the showcase project directory
+          PROJECT_PATH=""
+          for file in $CHANGED_FILES; do
+            if [[ $file == showcase/* ]]; then
+              # Extract project path - handle both 2-level and 3-level paths
+              # Examples: showcase/concrete-calculator-v3, showcase/vue-shop/frontend
+              if [[ $file =~ ^(showcase/vue-shop/(frontend|backend)) ]]; then
+                PROJECT_PATH="${BASH_REMATCH[1]}"
+              elif [[ $file =~ ^(showcase/[^/]+) ]]; then
+                PROJECT_PATH="${BASH_REMATCH[1]}"
+              fi
+
+              # If we found a package.json, we've got our project
+              if [ -f "$PROJECT_PATH/package.json" ]; then
+                break
+              fi
+            fi
+          done
+
+          if [ -z "$PROJECT_PATH" ] || [ ! -f "$PROJECT_PATH/package.json" ]; then
+            echo "No showcase project with package.json detected, skipping checks"
+            echo "skip-checks=true" >> $GITHUB_OUTPUT
+            echo "project-path=" >> $GITHUB_OUTPUT
+            echo "project-name=" >> $GITHUB_OUTPUT
+            echo "has-build=false" >> $GITHUB_OUTPUT
+            echo "has-test=false" >> $GITHUB_OUTPUT
+            echo "has-lint=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "skip-checks=false" >> $GITHUB_OUTPUT
+          echo "project-path=$PROJECT_PATH" >> $GITHUB_OUTPUT
+          echo "project-name=$(basename $PROJECT_PATH)" >> $GITHUB_OUTPUT
+
+          echo "Detected project: $PROJECT_PATH"
+
+          # Check what scripts are available in package.json
+          HAS_BUILD=$(jq -r '.scripts.build // empty' "$PROJECT_PATH/package.json")
+          HAS_TEST=$(jq -r '.scripts.test // empty' "$PROJECT_PATH/package.json")
+          HAS_LINT=$(jq -r '.scripts.lint // empty' "$PROJECT_PATH/package.json")
+
+          echo "has-build=$( [ -n "$HAS_BUILD" ] && echo 'true' || echo 'false' )" >> $GITHUB_OUTPUT
+          echo "has-test=$( [ -n "$HAS_TEST" ] && echo 'true' || echo 'false' )" >> $GITHUB_OUTPUT
+          echo "has-lint=$( [ -n "$HAS_LINT" ] && echo 'true' || echo 'false' )" >> $GITHUB_OUTPUT
+
+          echo "Available scripts: build=$HAS_BUILD, test=$HAS_TEST, lint=$HAS_LINT"
+
+  # Run checks on the detected project
+  check-project:
+    runs-on: ubuntu-latest
+    needs: detect-project
+    if: needs.detect-project.outputs.skip-checks == 'false'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ needs.detect-project.outputs.project-path }}/node_modules
+          key: ${{ runner.os }}-node-${{ needs.detect-project.outputs.project-path }}-${{ hashFiles(format('{0}/package-lock.json', needs.detect-project.outputs.project-path)) }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ needs.detect-project.outputs.project-path }}-
+
+      - name: Install dependencies
+        run: |
+          cd ${{ needs.detect-project.outputs.project-path }}
+          if [ -f package-lock.json ]; then
+            # Try npm ci first, fall back to npm install with legacy-peer-deps if it fails
+            npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+          else
+            npm install --legacy-peer-deps
+          fi
+
+      - name: Run linter
+        if: needs.detect-project.outputs.has-lint == 'true'
+        run: |
+          cd ${{ needs.detect-project.outputs.project-path }}
+          npm run lint
+        continue-on-error: true
+
+      - name: Run tests
+        if: needs.detect-project.outputs.has-test == 'true'
+        run: |
+          cd ${{ needs.detect-project.outputs.project-path }}
+          npm test
+        continue-on-error: true
+
+      - name: Run build
+        if: needs.detect-project.outputs.has-build == 'true'
+        run: |
+          cd ${{ needs.detect-project.outputs.project-path }}
+          npm run build
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Dependabot PR Checks Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Project:** ${{ needs.detect-project.outputs.project-name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Path:** \`${{ needs.detect-project.outputs.project-path }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Checks Run:" >> $GITHUB_STEP_SUMMARY
+          echo "- Lint: ${{ needs.detect-project.outputs.has-lint }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Test: ${{ needs.detect-project.outputs.has-test }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Build: ${{ needs.detect-project.outputs.has-build }}" >> $GITHUB_STEP_SUMMARY

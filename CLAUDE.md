@@ -157,3 +157,13 @@ Code extensively uses ES6 syntax including arrow functions, template literals, a
 - Bulma CSS framework is commonly used for styling
 - Some projects use Pug templates and SASS/SCSS
 - ready-vuejs projects may have deployment configurations for Heroku
+
+## GitHub Labels
+
+The repository uses the following labels for organization and automation:
+
+- **dependencies** - Auto-applied to Dependabot PRs that update dependencies
+- **showcase** - Issues/PRs related to actively maintained showcase projects
+- **vue2-migration-pending** - Projects that need Vue 2 to Vue 3 migration
+
+These labels are referenced in `.github/dependabot.yml` and must exist for Dependabot to function properly.
