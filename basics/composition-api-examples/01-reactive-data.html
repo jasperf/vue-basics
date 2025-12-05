@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Composition API - Reactive Data</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			max-width: 800px;
+			margin: 50px auto;
+			padding: 20px;
+		}
+		.example {
+			background: #f5f5f5;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 8px;
+		}
+		button {
+			padding: 10px 20px;
+			margin: 5px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+		input {
+			padding: 8px;
+			margin: 5px;
+			font-size: 16px;
+		}
+		h3 {
+			color: #42b883;
+		}
+	</style>
+</head>
+<body>
+<div id="app">
+	<h1>Composition API: Reactive Data</h1>
+
+	<div class="example">
+		<h3>Example 1: Using ref() for Primitives</h3>
+		<p>Count: {{ count }}</p>
+		<button @click="increment">Increment</button>
+		<button @click="decrement">Decrement</button>
+		<button @click="reset">Reset</button>
+	</div>
+
+	<div class="example">
+		<h3>Example 2: Using reactive() for Objects</h3>
+		<p>Name: {{ user.name }}</p>
+		<p>Age: {{ user.age }}</p>
+		<p>Email: {{ user.email }}</p>
+		<input v-model="user.name" placeholder="Enter name">
+		<input v-model.number="user.age" type="number" placeholder="Enter age">
+		<input v-model="user.email" placeholder="Enter email">
+	</div>
+
+	<div class="example">
+		<h3>Example 3: Combining ref() and reactive()</h3>
+		<p>Loading: {{ isLoading ? 'Yes' : 'No' }}</p>
+		<p>Items count: {{ items.length }}</p>
+		<button @click="addItem">Add Item</button>
+		<button @click="toggleLoading">Toggle Loading</button>
+		<ul>
+			<li v-for="item in items" :key="item.id">{{ item.name }}</li>
+		</ul>
+	</div>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+	const { createApp, ref, reactive } = Vue
+
+	createApp({
+		setup() {
+			// Example 1: ref() for primitive values
+			// Always access/modify with .value in JavaScript
+			// In template, Vue automatically unwraps ref()
+			const count = ref(0)
+
+			const increment = () => {
+				count.value++
+			}
+
+			const decrement = () => {
+				count.value--
+			}
+
+			const reset = () => {
+				count.value = 0
+			}
+
+			// Example 2: reactive() for objects
+			// Direct property access, no .value needed
+			const user = reactive({
+				name: 'John Doe',
+				age: 30,
+				email: 'john@example.com'
+			})
+
+			// Example 3: Combining both
+			const isLoading = ref(false)
+			const items = reactive([
+				{ id: 1, name: 'Item 1' },
+				{ id: 2, name: 'Item 2' }
+			])
+
+			const addItem = () => {
+				const newId = items.length + 1
+				items.push({ id: newId, name: `Item ${newId}` })
+			}
+
+			const toggleLoading = () => {
+				isLoading.value = !isLoading.value
+			}
+
+			// Return everything that should be available in the template
+			return {
+				// Example 1
+				count,
+				increment,
+				decrement,
+				reset,
+				// Example 2
+				user,
+				// Example 3
+				isLoading,
+				items,
+				addItem,
+				toggleLoading
+			}
+		}
+	}).mount('#app')
+</script>
+
+</body>
+</html>
