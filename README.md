@@ -1,170 +1,276 @@
-# VueJS Basics
+# Vue Basics - Learning Repository
 
-In this repository I put all the Vue projects I worked on using Laracasts.com and other workshops on the web to learn Vue.js.
+A curated collection of Vue.js projects built while learning Vue through Laracasts and other online workshops.
 
-## 🎉 Vue 3 Migration Status
+**Last Updated:** 2025-12-05
+**Repository Status:** Active - Focused on 5 showcase projects
 
-**12 projects migrated to Vue 3** with automated testing! See [CHANGELOG.md](CHANGELOG.md) for details.
+---
 
-### ✅ Vue 3 Ready (CDN-based)
+## 🎯 Repository Structure
 
-- **Attribute and Class Binding** - v-bind directive (Vue 3)
-- **Basic Data Binding** - v-model two-way binding (Vue 3)
-- **Component within Component** - Nested components (Vue 3)
-- **Component Modal** - Modal with events (Vue 3)
-- **Component Tabs** - Tabs with provide/inject (Vue 3)
-- **Component with Message** - Message component (Vue 3)
-- **Components** - Basic component patterns (Vue 3)
-- **Computed Properties** - Computed properties & caching (Vue 3)
-- **Event Listeners** - v-on directive (Vue 3)
-- **Lists** - v-for list rendering (Vue 3)
-- **Twitter** - Twitter-style interface (Vue 3)
-- **Drag and Drop** - Custom directive (Vue 3 + Vue 1.x)
-
-### 🔧 Vue 2.7 (Webpack Projects)
-
-- Axios - Promised Based HTTP and VueJS
-- To Do App - Full Vue CLI project with tests
-- Vue CLI Webpack Project - Router integration
-- Vue Shop - MEVN stack e-commerce
-
-### 📊 Project Status Summary
-
-- **Vue 3:** 12 projects (all tested ✅)
-- **Vue 2.7:** 4 major projects
-- **Test Coverage:** 6 projects with Playwright tests
-- **Pass Rate:** 100%
-
-## Attribute and Class Binding - v-bind
-In this workshop work with ```v-bind```. We use it to change the class and attributes of html tags to create new state.
-
-## Axios
-Basic Axios - Promised Based HTTP Client - Ajax call loading Json from Laravel Route with array. 
-
-Vue is used to add the data or skills in this case to the DOM using an empty array. In `resources/assets/js/app.js` we require bootstrap and view and then import our Vue component using:
-```
-Vue.component('example', require('./components/Example.vue')); 
-```
-
-The component does a basic `mounted` test loading some data and recording a succes mount in the console.
-### Laravel Backend
-This demo uses Axios as part of a Laravel application So a full fledged Laravel setup is used here. Axios fills the array with data from the Larvel Route skills at `routes/web.php`:
+This repository has been reorganized to focus on **quality over quantity**:
 
 ```
-Route::get('skills', function () {
-    return ['Laravel', 'Vue', 'PHP', 'JavaScript', 'Tooling'];
-});
+vue-basics/
+├── showcase/           # 5 actively maintained portfolio projects
+├── archive/           # 35+ educational reference projects (Vue 2, no maintenance)
+├── docs/              # Documentation
+├── scripts/           # Utility scripts
+├── MAINTENANCE-PLAN.md   # Migration roadmap
+└── CLAUDE.md          # Development guidelines
 ```
 
-`resources/views/welcome.blade.php` loads the vue data using:
+---
 
-```
-<body>
-        <div id="app">
-            <ul>
-                <li v-for="skill in skills">@{{skill}}</li>
-            </ul>
-        </div>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="https://unpkg.com/vue"></script>
-        <script src="/js/app.js"" type="text/javascript" charset="utf-8" async defer></script>
-    </body>
+## 🌟 Showcase Projects (Active)
+
+These 5 projects are actively maintained and represent modern, portfolio-ready Vue.js applications.
+
+### ✅ [Concrete Calculator v3](showcase/concrete-calculator-v3/)
+**Status:** Vue 3 Complete ✅
+**Stack:** Vue 3.5, Vite 7, Tailwind CSS, DaisyUI, vee-validate 4, Yup
+**Description:** Modern foundation concrete volume calculator with form validation
+
+```bash
+cd showcase/concrete-calculator-v3
+npm install
+npm run dev
 ```
 
-### PHP Server
-You can run the app using Homestead of for a quick check the built in PHP server using:
-```
-jasper@/axios/public $ php -S localhost:8000
-PHP 7.1.5 Development Server started at Fri Sep 15 12:13:49 2017
-Listening on http://localhost:8000
-Document root is /Users/jasper/webdesign/vue-basics/axios/public
-Press Ctrl-C to quit.
-[Fri Sep 15 12:13:52 2017] ::1:58449 [200]: /
-[Fri Sep 15 12:13:52 2017] ::1:58454 [200]: /js/app.js
-[Fri Sep 15 12:13:55 2017] ::1:58463 [200]: /skills
-```
-## Basic Databinding
-Showing how you can reactively bind data to an input field using v-model as well as echoing the data using the moustache ```{{}}``` syntax.
+### 🔄 [Vue Shop](showcase/vue-shop/)
+**Status:** Vue 2.7 → Vue 3 (Phase 2 - Planned)
+**Stack:** MEVN (MongoDB, Express, Vue, Node), vue-router, vee-validate
+**Description:** Full-stack e-commerce application with separate frontend/backend
 
-This type of data binding using ```v-model``` is for input fields and text areas only. For binding of classes and styles ```v-bind``` is used.
+**Frontend:**
+```bash
+cd showcase/vue-shop/frontend
+npm install
+npm run dev
+```
 
-## Components within Components
-Basic example showing you how you can use html tags defined in one component:
+**Backend:**
+```bash
+cd showcase/vue-shop/backend
+npm install
+npm start
 ```
-<task v-for="task in tasks" :key="task.id">{{ task.task }}</task>
-```
-and reuse those in the second component. Do remember that Vue wants you do a top bottom approach so components at the top depend on the ones following them. And a new Vue instance follows at the end
 
-## Component Modal
+### 🔄 [Manager App](showcase/manager-app/)
+**Status:** Vue 2.2 → Vue 3 (Phase 3 - Planned)
+**Stack:** Firebase, Vuefire, vue-router, Pug, SASS
+**Description:** Real-time database manager with Firebase integration
 
-## Component Tabs
+```bash
+cd showcase/manager-app
+npm install
+npm run dev
+```
 
-Tougher chapter dealing with adding a tabbed structure. CSS is based on a Bulma component again. As for dealing with the tab headers, body and selected states several directives have been used:
-```
-v-modal
-v-bind or : 
-v-show
-v-on: or @click
-v-for (loops)
-```
-Issues you bump into is 
-- the fact that properties need to be immutable, 
-- that children within components need to be registered as properties to manipulate them, 
-- that custom tags in components not defined yet need a separate component or at least their own property (own component here).
+### 🔄 [Stock Trader](showcase/stock-trader/)
+**Status:** Vue 2.2 → Vue 3 (Phase 4 - Planned)
+**Stack:** Vuex (→Pinia), vue-router, Pug, SASS, Animate.css
+**Description:** Stock trading simulator with state management
 
-You will also see ES6 used here again and that something like
+```bash
+cd showcase/stock-trader
+npm install
+npm run dev
 ```
-$vm0.$children.forEach(tab => console.log(tab.name));
-```
-can be confusing due to ES6 syntax for the uninitiated.
-**NB** Code has been commented extensively.
 
-## Components with Message
-Working with a component here in more detail using the properties:prop, extended template details as well as a method to show or hide a message block. Directive used here to work with the method to hide the message is ```v-show```. Bulma is used here it being Jeffrey Way,'' favorite CSS framework.
+### 🔄 [Unsplash App](showcase/unsplash-app/)
+**Status:** Vue 2.2 → Vue 3 (Phase 5 - Planned)
+**Stack:** Axios, Bulma, Unsplash API
+**Description:** Image search and gallery using Unsplash API
 
-The `@click` used here is  a short version of `v-on:click` and you can add a method to be called. Also see [listening to events chapter at Vue](https://vuejs.org/v2/guide/events.html#Listening-to-Events)
+```bash
+cd showcase/unsplash-app
+npm install
+npm run dev
+```
 
-## Event Listeners
-In this workshop event listeners are setup. The example using vanilla JavaScript is used first and then commented out:
-```
-document.querySelector('#button').addEventListener('click', () => {
-	let name = document.querySelector('#input');
-	app.names.push(name.value);
-	name.value = ''; //empty the field
-});
-```
-This to show how event listeners are set up in Vue JS with a lot less code and way easier then using JavaScript or jQuery. The event listener is set up using the directive ```v-on:click``` . With it a method can be bound to it.
+---
 
-## To Do App
-Todo app based on Jeremy Kithome's tutorial at Scotchbox [here](https://scotch.io/tutorials/build-a-to-do-app-with-vue-js-2). This app is made with the vue cli tool. You can install it using 
-```
-npm install --global vue-cli
-```
-Once installed you have the option to set up a 
-- Webpack app, 
-- webpack simple Webpack with Vue-loader,
--  Browserify - Browserify plus Vue-ify with hot-reload,
--  Browserify Simple - Borwserify + Vue-ify,
--  Simple - Vue using a single HTML file
-For this app we use the full Webpack app:
-```
-vue init webpack todo-app
-```
-## Twitter
+## 📦 Archived Projects
 
-Twitter Tweet field in progress
+**35+ educational projects** preserved for reference but no longer maintained.
 
-## V-For and Lists
-Wonderful basic example showing how you can use Vue's v-for loops. From within a component with a data function an array of data is loaded:
-```
-data: { // data
-                names: ['Joe', 'Mary', 'John'] // array with elements
-                //try app.names.push('Jeremiah')
-            }
-```
-This array is loaded onto the page using:
-```
-<li v-for="name in names">{{ name }}</li>
-```
-The `{{}}` moustache curly braces are used here again to echo the actual name from the for loop.
+- **[Basic Concepts](archive/basic-concepts/)** - 10 standalone Vue concept demos
+- **[Legacy Projects](archive/legacy-projects/)** - 5 older Vue CLI projects
+- **[Ready-VueJS Demos](archive/ready-vuejs-demos/)** - 20+ workshop demos
+  - Calculators (7 projects)
+  - API Integrations (9 projects)
+  - Miscellaneous (10 projects)
 
+⚠️ **Note:** Archived projects use outdated dependencies (Vue 2.2-2.7, Webpack 2-5) and are not maintained.
+
+**[See Archive README](archive/README.md)** for full details.
+
+---
+
+## 🗺️ Migration Roadmap
+
+See [MAINTENANCE-PLAN.md](MAINTENANCE-PLAN.md) for the complete Vue 2 → Vue 3 migration strategy.
+
+### Phase 1: Archive & Cleanup ✅ (Complete)
+- [x] Created `/showcase` and `/archive` directories
+- [x] Moved 5 showcase projects
+- [x] Moved 35+ archived projects
+- [x] Created documentation
+
+### Phase 2-5: Vue 3 Migrations 🔄 (Planned)
+- **Phase 2 (Weeks 2-4):** vue-shop MEVN stack
+- **Phase 3 (Weeks 5-6):** manager-app Firebase
+- **Phase 4 (Weeks 7-8):** stock-trader Vuex→Pinia
+- **Phase 5 (Week 9):** unsplash-app API demo
+
+### Phase 6: Final Documentation 📝
+- Updated READMEs and deployment guides
+- Screenshots and demos
+- Tagged releases
+
+---
+
+## 🛠️ Technology Stack
+
+### Showcase Projects (Target Stack)
+
+| Technology | Current | Target |
+|------------|---------|--------|
+| **Vue** | 2.2-2.7 | **3.5+** |
+| **Build** | Webpack | **Vite 7** |
+| **Router** | vue-router 2-3 | **vue-router 4** |
+| **State** | Vuex 2 | **Pinia 2** |
+| **Validation** | vee-validate 2 | **vee-validate 4** |
+| **Node** | ≥4.0 | **≥20.0** |
+
+---
+
+## 📚 Learning Journey
+
+This repository documents my Vue.js learning path:
+
+1. **Basic Concepts** (CDN Vue) - Understanding fundamentals
+2. **Component Patterns** - Reusable components, props, events
+3. **Vue Router** - Single-page applications
+4. **State Management** - Vuex for complex state
+5. **API Integration** - Axios, Firebase, external APIs
+6. **Full-Stack** - MEVN stack with MongoDB/Express
+7. **Modern Tooling** - Vite, Composition API, TypeScript
+
+### Key Concepts Covered
+
+- ✅ v-bind, v-model, v-for, v-if directives
+- ✅ Component communication (props, events, provide/inject)
+- ✅ Computed properties and watchers
+- ✅ Lifecycle hooks
+- ✅ Vue Router (routing, navigation guards)
+- ✅ Vuex/Pinia (state management)
+- ✅ API integration (REST, Firebase)
+- ✅ Form validation (vee-validate)
+- ✅ Build tools (Webpack → Vite)
+- 🔄 Composition API (in progress)
+- 🔄 TypeScript integration (planned)
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js ≥18.0 (≥20.0 recommended)
+- npm ≥9.0
+
+### For Showcase Projects
+
+```bash
+# Clone the repository
+git clone https://github.com/jasperf/vue-basics.git
+cd vue-basics
+
+# Navigate to a showcase project
+cd showcase/concrete-calculator-v3
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+### For Archived Projects
+
+See [archive/README.md](archive/README.md) for project-specific instructions.
+
+⚠️ **Warning:** Archived projects have outdated dependencies. Use for reference only.
+
+---
+
+## 📖 Documentation
+
+- **[MAINTENANCE-PLAN.md](MAINTENANCE-PLAN.md)** - Migration roadmap and project classifications
+- **[CLAUDE.md](CLAUDE.md)** - Development guidelines and repository structure
+- **[archive/README.md](archive/README.md)** - Archived projects documentation
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history
+
+---
+
+## 🎓 Learning Resources
+
+### Official Documentation
+- [Vue 3 Docs](https://vuejs.org/)
+- [Vue Router Docs](https://router.vuejs.org/)
+- [Pinia Docs](https://pinia.vuejs.org/)
+- [Vite Docs](https://vitejs.dev/)
+
+### Courses & Tutorials
+- [Laracasts - Learn Vue](https://laracasts.com/series/learn-vue-2-step-by-step) (Original learning source)
+- [Vue Mastery](https://www.vuemastery.com/)
+- [Vue School](https://vueschool.io/)
+
+### Migration Guides
+- [Vue 3 Migration Guide](https://v3-migration.vuejs.org/)
+- [Vite Migration from Webpack](https://vitejs.dev/guide/migration.html)
+- [Pinia vs Vuex](https://pinia.vuejs.org/introduction.html#comparison-with-vuex)
+
+---
+
+## 🤝 Contributing
+
+This is a personal learning repository, but suggestions are welcome!
+
+- Found a bug in a showcase project? Open an issue
+- Have a Vue 3 migration tip? Share it
+- Archived projects are reference-only (no PRs accepted)
+
+---
+
+## 📊 Repository Stats
+
+- **Total Projects:** 40+
+- **Showcase Projects:** 5 (1 Vue 3, 4 Vue 2)
+- **Archived Projects:** 35+
+- **Vue 3 Migrations:** 1 complete, 4 planned
+- **Technologies:** Vue, Vite, Webpack, Firebase, MongoDB, Express, Tailwind, Bulma
+
+---
+
+## 📝 License
+
+This is a personal learning repository. Individual projects may have their own licenses from original tutorial sources.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Jeffrey Way** ([Laracasts](https://laracasts.com/)) - Primary Vue.js learning resource
+- **Vue.js Team** - Amazing framework and documentation
+- **Open Source Community** - All the libraries and tools
+
+---
+
+**For detailed project information, see [MAINTENANCE-PLAN.md](MAINTENANCE-PLAN.md)**

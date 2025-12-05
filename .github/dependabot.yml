@@ -1,0 +1,63 @@
+version: 2
+updates:
+  # Showcase projects - actively maintained
+  - package-ecosystem: "npm"
+    directory: "/showcase/concrete-calculator-v3"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "showcase"
+
+  - package-ecosystem: "npm"
+    directory: "/showcase/vue-shop/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "showcase"
+
+  - package-ecosystem: "npm"
+    directory: "/showcase/vue-shop/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "showcase"
+
+  - package-ecosystem: "npm"
+    directory: "/showcase/manager-app"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "showcase"
+      - "vue2-migration-pending"
+
+  - package-ecosystem: "npm"
+    directory: "/showcase/stock-trader"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "showcase"
+      - "vue2-migration-pending"
+
+  - package-ecosystem: "npm"
+    directory: "/showcase/unsplash-app"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "showcase"
+      - "vue2-migration-pending"
+
+# NOTE: Archived projects (/archive/*) are intentionally NOT included
+# These projects are preserved for reference only and not actively maintained
+# See archive/README.md and MAINTENANCE-PLAN.md for details
