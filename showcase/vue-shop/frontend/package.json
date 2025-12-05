@@ -11,7 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vee-validate": "^2.2.15",
+    "vee-validate": "^4.15.1",
     "vue": "^2.7.16",
     "vue-router": "^3.6.5"
   },
