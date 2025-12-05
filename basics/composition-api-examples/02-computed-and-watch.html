@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Composition API - Computed & Watch</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			max-width: 800px;
+			margin: 50px auto;
+			padding: 20px;
+		}
+		.example {
+			background: #f5f5f5;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 8px;
+		}
+		button {
+			padding: 10px 20px;
+			margin: 5px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+		input {
+			padding: 8px;
+			margin: 5px;
+			font-size: 16px;
+			width: 200px;
+		}
+		h3 {
+			color: #42b883;
+		}
+		.log {
+			background: #fff;
+			padding: 10px;
+			margin-top: 10px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			max-height: 150px;
+			overflow-y: auto;
+		}
+		.log-entry {
+			font-family: monospace;
+			font-size: 12px;
+			margin: 2px 0;
+		}
+	</style>
+</head>
+<body>
+<div id="app">
+	<h1>Composition API: Computed & Watch</h1>
+
+	<div class="example">
+		<h3>Example 1: Computed Properties</h3>
+		<input v-model="firstName" placeholder="First name">
+		<input v-model="lastName" placeholder="Last name">
+		<p><strong>Full Name:</strong> {{ fullName }}</p>
+		<p><strong>Initials:</strong> {{ initials }}</p>
+	</div>
+
+	<div class="example">
+		<h3>Example 2: Watch - Track Changes</h3>
+		<input v-model="searchQuery" placeholder="Search...">
+		<p>Search query: "{{ searchQuery }}"</p>
+		<p>Length: {{ searchQuery.length }} characters</p>
+		<div class="log">
+			<div class="log-entry" v-for="(log, index) in watchLogs" :key="index">
+				{{ log }}
+			</div>
+		</div>
+	</div>
+
+	<div class="example">
+		<h3>Example 3: WatchEffect - Automatic Tracking</h3>
+		<p>Count: {{ count }}</p>
+		<p>Multiplier: {{ multiplier }}</p>
+		<p><strong>Result:</strong> {{ result }}</p>
+		<button @click="count++">Increment Count</button>
+		<button @click="multiplier++">Increment Multiplier</button>
+		<div class="log">
+			<div class="log-entry" v-for="(log, index) in effectLogs" :key="index">
+				{{ log }}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+	const { createApp, ref, computed, watch, watchEffect, reactive } = Vue
+
+	createApp({
+		setup() {
+			// Example 1: Computed properties
+			const firstName = ref('John')
+			const lastName = ref('Doe')
+
+			// Computed values are cached and only re-computed when dependencies change
+			const fullName = computed(() => {
+				return `${firstName.value} ${lastName.value}`
+			})
+
+			const initials = computed(() => {
+				return `${firstName.value.charAt(0)}.${lastName.value.charAt(0)}.`
+			})
+
+			// Example 2: Watch - explicit dependency tracking
+			const searchQuery = ref('')
+			const watchLogs = reactive([])
+
+			// Watch specific ref/reactive property
+			watch(searchQuery, (newValue, oldValue) => {
+				const timestamp = new Date().toLocaleTimeString()
+				watchLogs.push(`[${timestamp}] Changed from "${oldValue}" to "${newValue}"`)
+				// Keep only last 10 logs
+				if (watchLogs.length > 10) {
+					watchLogs.shift()
+				}
+			})
+
+			// Example 3: WatchEffect - automatic dependency tracking
+			const count = ref(0)
+			const multiplier = ref(2)
+			const result = ref(0)
+			const effectLogs = reactive([])
+
+			// watchEffect runs immediately and tracks dependencies automatically
+			watchEffect(() => {
+				result.value = count.value * multiplier.value
+				const timestamp = new Date().toLocaleTimeString()
+				effectLogs.push(`[${timestamp}] Result updated: ${count.value} × ${multiplier.value} = ${result.value}`)
+				// Keep only last 10 logs
+				if (effectLogs.length > 10) {
+					effectLogs.shift()
+				}
+			})
+
+			return {
+				// Example 1
+				firstName,
+				lastName,
+				fullName,
+				initials,
+				// Example 2
+				searchQuery,
+				watchLogs,
+				// Example 3
+				count,
+				multiplier,
+				result,
+				effectLogs
+			}
+		}
+	}).mount('#app')
+</script>
+
+</body>
+</html>

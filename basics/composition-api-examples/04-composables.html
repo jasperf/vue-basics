@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Composition API - Composables (Reusable Logic)</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			max-width: 800px;
+			margin: 50px auto;
+			padding: 20px;
+		}
+		.example {
+			background: #f5f5f5;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 8px;
+		}
+		button {
+			padding: 10px 20px;
+			margin: 5px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+		h3 {
+			color: #42b883;
+		}
+		.mouse-position {
+			background: #fff;
+			padding: 15px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			font-family: monospace;
+		}
+		.online-status {
+			display: inline-block;
+			padding: 5px 15px;
+			border-radius: 20px;
+			font-weight: bold;
+		}
+		.online-status.online {
+			background: #4caf50;
+			color: white;
+		}
+		.online-status.offline {
+			background: #f44336;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+<div id="app">
+	<h1>Composition API: Composables</h1>
+	<p><em>Composables are reusable functions that encapsulate stateful logic</em></p>
+
+	<div class="example">
+		<h3>Example 1: useCounter Composable</h3>
+		<p>Counter A: {{ counterA.count }}</p>
+		<button @click="counterA.increment()">Increment A</button>
+		<button @click="counterA.decrement()">Decrement A</button>
+		<button @click="counterA.reset()">Reset A</button>
+
+		<hr style="margin: 20px 0;">
+
+		<p>Counter B: {{ counterB.count }}</p>
+		<button @click="counterB.increment()">Increment B</button>
+		<button @click="counterB.decrement()">Decrement B</button>
+		<button @click="counterB.reset()">Reset B</button>
+
+		<p><small>Each counter has its own independent state!</small></p>
+	</div>
+
+	<div class="example">
+		<h3>Example 2: useMouse Composable</h3>
+		<p>Move your mouse around to see coordinates</p>
+		<div class="mouse-position">
+			<div>X: {{ mouse.x }}</div>
+			<div>Y: {{ mouse.y }}</div>
+		</div>
+	</div>
+
+	<div class="example">
+		<h3>Example 3: useOnlineStatus Composable</h3>
+		<p>
+			Network Status:
+			<span class="online-status" :class="{ online: isOnline, offline: !isOnline }">
+				{{ isOnline ? 'Online' : 'Offline' }}
+			</span>
+		</p>
+		<p><small>Try turning your network on/off to see the status change</small></p>
+	</div>
+
+	<div class="example">
+		<h3>Example 4: useLocalStorage Composable</h3>
+		<input v-model="storedName" placeholder="Enter your name">
+		<p>Stored value: {{ storedName }}</p>
+		<button @click="clearName">Clear Storage</button>
+		<p><small>Your name is saved to localStorage and persists across page refreshes!</small></p>
+	</div>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+	const { createApp, ref, onMounted, onUnmounted, watch } = Vue
+
+	// COMPOSABLE 1: useCounter
+	// Reusable counter logic with increment, decrement, and reset
+	function useCounter(initialValue = 0) {
+		const count = ref(initialValue)
+
+		const increment = () => {
+			count.value++
+		}
+
+		const decrement = () => {
+			count.value--
+		}
+
+		const reset = () => {
+			count.value = initialValue
+		}
+
+		return {
+			count,
+			increment,
+			decrement,
+			reset
+		}
+	}
+
+	// COMPOSABLE 2: useMouse
+	// Track mouse position across the page
+	function useMouse() {
+		const x = ref(0)
+		const y = ref(0)
+
+		const updatePosition = (event) => {
+			x.value = event.pageX
+			y.value = event.pageY
+		}
+
+		onMounted(() => {
+			window.addEventListener('mousemove', updatePosition)
+		})
+
+		onUnmounted(() => {
+			window.removeEventListener('mousemove', updatePosition)
+		})
+
+		return { x, y }
+	}
+
+	// COMPOSABLE 3: useOnlineStatus
+	// Track online/offline network status
+	function useOnlineStatus() {
+		const isOnline = ref(navigator.onLine)
+
+		const updateOnlineStatus = () => {
+			isOnline.value = navigator.onLine
+		}
+
+		onMounted(() => {
+			window.addEventListener('online', updateOnlineStatus)
+			window.addEventListener('offline', updateOnlineStatus)
+		})
+
+		onUnmounted(() => {
+			window.removeEventListener('online', updateOnlineStatus)
+			window.removeEventListener('offline', updateOnlineStatus)
+		})
+
+		return { isOnline }
+	}
+
+	// COMPOSABLE 4: useLocalStorage
+	// Sync ref with localStorage
+	function useLocalStorage(key, defaultValue) {
+		const stored = localStorage.getItem(key)
+		const value = ref(stored ? JSON.parse(stored) : defaultValue)
+
+		// Watch for changes and update localStorage
+		watch(value, (newValue) => {
+			localStorage.setItem(key, JSON.stringify(newValue))
+		}, { deep: true })
+
+		const clear = () => {
+			value.value = defaultValue
+			localStorage.removeItem(key)
+		}
+
+		return { value, clear }
+	}
+
+	// Main app using the composables
+	createApp({
+		setup() {
+			// Use the same composable multiple times with independent state
+			const counterA = useCounter(0)
+			const counterB = useCounter(100)
+
+			// Track mouse position
+			const mouse = useMouse()
+
+			// Track online status
+			const { isOnline } = useOnlineStatus()
+
+			// Use localStorage
+			const { value: storedName, clear: clearName } = useLocalStorage('userName', '')
+
+			return {
+				counterA,
+				counterB,
+				mouse,
+				isOnline,
+				storedName,
+				clearName
+			}
+		}
+	}).mount('#app')
+</script>
+
+</body>
+</html>

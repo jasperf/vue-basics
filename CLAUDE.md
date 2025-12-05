@@ -6,41 +6,81 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a learning repository containing multiple Vue.js projects, ranging from basic Vue concepts to full-stack applications. The repository serves as a collection of educational examples and demonstrations built while learning Vue.js through Laracasts and other online workshops.
 
+**Current Migration Status:** Actively migrating from Vue 2 to Vue 3 (Phase 2 Complete - Basic Examples)
+
 ## Repository Structure
 
-The repository is organized into three main categories:
+The repository is organized into four main categories:
 
-### 1. Basic Concept Examples (Root Level)
-Individual folders demonstrating specific Vue.js features:
+### 1. Vue 3 Basics (`basics/`) ✅ COMPLETE
+Fundamental Vue 3 examples using CDN (no build tools required):
+
+**Core Concepts:**
 - `attribute-and-class-binding/` - v-bind directive examples
 - `components/` - Basic component patterns
 - `computed-properties/` - Computed properties and caching
 - `event-listeners/` - v-on directive and event handling
 - `v-for-and-lists/` - List rendering
 - `v-model-basic-data-binding/` - Two-way data binding
-- `component-*` folders - Various component patterns (modal, tabs, nested components)
 
-### 2. Standalone Projects
-Self-contained applications:
+**Component Patterns:**
+- `component-modal/` - Modal with event emitting
+- `component-tabs/` - Tab system with provide/inject
+- `component-in-component/` - Nested components
+- `component-w-message/` - Props and methods
+
+**Modern Vue 3:**
+- `composition-api-examples/` - Composition API demonstrations
+  - ref() and reactive() for state
+  - computed() and watch()
+  - Lifecycle hooks (onMounted, etc.)
+  - Composables (reusable logic)
+
+**All use Vue 3 CDN - open HTML files directly in browser**
+
+### 2. Showcase Projects (`showcase/`)
+Production-quality applications demonstrating complete features:
+
+**Vue 3 Projects:** ✅
+- `concrete-calculator-v3/` - Vue 3.5.24 + Vite + Tailwind + DaisyUI
+
+**Vue 2 Projects:** ⏳ Migration Pending
+- `stock-trader/` - Stock trading app (Vue 2.2.6 + Vuex + vue-router)
+- `vue-shop/` - Full MEVN stack e-commerce (Vue 2.7.16 + Express + MongoDB)
+- `manager-app/` - Task manager with Firebase (Vue 2.2.6 + Vuefire)
+- `unsplash-app/` - Image gallery with Unsplash API (Vue 2.2.6 + axios)
+
+### 3. Archive (`archive/`)
+Legacy projects preserved for reference:
+
+**Legacy Projects:**
 - `todo-app/` - Full Vue CLI webpack project with unit/e2e tests
 - `twitter/` - Twitter-style interface
 - `drag-and-drop/` - Drag and drop directive implementation
-- `axios/` - Laravel backend with Vue frontend demonstrating HTTP requests
+- `axios/` - Laravel backend with Vue frontend
+- `vue-cli-webpack-project/` - Standard Vue CLI structure
 
-### 3. Ready-VueJS Apps (`ready-vuejs/`)
-Collection of complete Vue.js applications including calculators, Firebase integration, API integrations, and more:
-- Calculator apps: `concrete-calculator`, `brick-calculator`, `loan-calculator`, `credit-calculator`, `weight-calc`, `fuel-consumption`
-- API integrations: `firebase-vuejs`, `axios-vuejs`, `soundcloud-player`, `yandex-translator`, `unsplash-app`
-- Full apps: `manager-app`, `meetup-app`, `stock-trader`, `photo-app`, `movies-app`
+**Ready-VueJS Demos:**
+- 20+ calculator, API integration, and example apps
+- All Vue 2, archived for reference
 
-### 4. Full-Stack Projects
-- `vue-shop/` - MEVN stack (MongoDB, Express, Vue, Node) e-commerce application
-  - `backend/` - Express.js API with MongoDB/Mongoose
-  - `frontend/` - Vue.js with vue-router and vee-validate
+### 4. Documentation (`docs/`)
+Migration guides and planning documents:
+- `VUE3_MIGRATION_STRATEGY.md` - Complete 9-phase migration plan
+- `VUE3_MIGRATION_CHECKLIST.md` - Quick reference for Vue 2 → 3 changes
+- Various phase roadmaps and progress reports
 
 ## Common Development Commands
 
-### Vue CLI Projects (todo-app, vue-cli-webpack-project, vue-shop/frontend, ready-vuejs/*)
+### Vue 3 + Vite Projects (showcase/concrete-calculator-v3)
+```bash
+npm install        # Install dependencies
+npm run dev        # Start Vite dev server (instant HMR)
+npm run build      # Production build
+npm run preview    # Preview production build
+```
+
+### Vue 2 CLI Projects (archive/*, showcase/* Vue 2 projects)
 ```bash
 npm install        # Install dependencies
 npm run dev        # Start development server
@@ -104,38 +144,102 @@ Full-stack separation with independent frontend/backend:
 
 ## Technology Stack
 
-### Core Technologies
-- **Vue.js 2.x** - All projects use Vue 2
-- **Webpack** - Module bundler for Vue CLI projects
+### Vue 3 Projects
+- **Vue 3.5.x** - Modern framework with Composition API
+- **Vite** - Next-generation build tool (instant HMR)
+- **Tailwind CSS** + DaisyUI - Utility-first CSS framework
+- **VeeValidate 4** + Yup - Form validation with schema
+
+### Vue 2 Projects (Being Migrated)
+- **Vue 2.2-2.7** - Legacy framework versions
+- **Webpack 2-5** - Module bundler for Vue CLI projects
 - **Babel** - ES6+ transpilation
+- **Vuex** - State management (will migrate to Pinia)
+- **vue-router 2-3** - Client-side routing
 
 ### Common Libraries
 - **axios** - HTTP client for API requests
-- **vue-router** - Client-side routing
-- **vee-validate** - Form validation (vue-shop)
-- **sweetalert** - Alerts/modals (todo-app)
 - **Firebase/Vuefire** - Real-time database integration
+- **sweetalert** - Alerts/modals
+- **Bulma CSS** - CSS framework (some projects)
 
 ### Backend Technologies
 - **Laravel** + Laravel Mix (axios project)
 - **Express.js** + MongoDB + Mongoose (vue-shop backend)
 
-### Testing
-- **Jest** - Unit testing (vue-cli-webpack-project)
-- **Karma + Mocha + Chai** - Unit testing (todo-app)
-- **Nightwatch** - E2e testing
-- **Selenium** - Browser automation
+### Testing (Legacy)
+- **Jest** - Unit testing
+- **Karma + Mocha + Chai** - Unit testing (old)
+- **Nightwatch** - E2e testing (old)
+- **Playwright** - Modern browser automation (for Vue 3)
 
 ## Important Patterns
 
-### Component Registration
-Vue CLI projects use component imports in main.js:
+### Vue 3 Patterns
+
+#### Application Instance
 ```javascript
-Vue.component('example', require('./components/Example.vue'));
+// Vue 3
+const { createApp } = Vue
+const app = createApp({
+  data() {
+    return { message: 'Hello' }
+  }
+})
+app.mount('#app')
 ```
 
-### Data Functions
-Components require data to be a function returning an object:
+#### Component Registration
+```javascript
+// Vue 3
+app.component('my-component', {
+  template: '<div>{{ message }}</div>',
+  data() {
+    return { message: 'Hello' }
+  }
+})
+```
+
+#### Composition API (Modern Pattern)
+```javascript
+import { ref, computed } from 'vue'
+
+export default {
+  setup() {
+    const count = ref(0)
+    const double = computed(() => count.value * 2)
+
+    const increment = () => {
+      count.value++
+    }
+
+    return { count, double, increment }
+  }
+}
+```
+
+#### Provide/Inject (Replaces $children)
+```javascript
+// Parent
+provide() {
+  return {
+    someMethod: this.someMethod
+  }
+}
+
+// Child
+inject: ['someMethod']
+```
+
+### Vue 2 Patterns (Legacy)
+
+#### Component Registration
+```javascript
+// Vue 2
+Vue.component('example', require('./components/Example.vue'))
+```
+
+#### Data Functions
 ```javascript
 data() {
   return {
@@ -144,19 +248,52 @@ data() {
 }
 ```
 
-### Props Are Immutable
-Child components receive props but should not mutate them directly. Use events to communicate changes to parent.
-
-### ES6 Arrow Functions
-Code extensively uses ES6 syntax including arrow functions, template literals, and destructuring.
+### Universal Patterns
+- **Props Are Immutable** - Use events to communicate changes to parent
+- **ES6+ Syntax** - Arrow functions, template literals, destructuring
+- **Single File Components** - .vue files with template, script, style
 
 ## Development Notes
 
-- Node version requirements vary by project (>= 4.0.0 or >= 6.0.0)
-- Browser targets: Modern browsers, excludes IE <= 8
-- Bulma CSS framework is commonly used for styling
-- Some projects use Pug templates and SASS/SCSS
-- ready-vuejs projects may have deployment configurations for Heroku
+### Node.js Requirements
+- **Vue 3 projects:** Node >= 18.0.0, npm >= 9.0.0
+- **Vue 2 projects:** Node >= 4.0.0 (varies by project)
+- **Recommended:** Node 18+ LTS for all development
+
+### Browser Compatibility
+- **Vue 3:** Modern browsers (ES2015+)
+- **Vue 2:** Modern browsers, excludes IE <= 8
+
+### Styling
+- **Vue 3 projects:** Tailwind CSS + DaisyUI
+- **Vue 2 projects:** Bulma CSS, custom CSS, some use Pug + SASS/SCSS
+
+### Migration Priority
+When working on Vue 3 migrations, follow this order:
+1. ✅ **basics/** - Complete (10 examples + Composition API examples)
+2. ⏳ **showcase/unsplash-app** - Next (simple, no router/state)
+3. ⏳ **showcase/stock-trader** - Then (router + Vuex → Pinia)
+4. ⏳ **showcase/manager-app** - Then (Firebase integration)
+5. ⏳ **showcase/vue-shop** - Complex (full-stack MEVN)
+
+## Vue 3 Migration Resources
+
+### Documentation Created
+- **[docs/VUE3_MIGRATION_STRATEGY.md](docs/VUE3_MIGRATION_STRATEGY.md)** - Complete 9-phase strategy
+- **[docs/VUE3_MIGRATION_CHECKLIST.md](docs/VUE3_MIGRATION_CHECKLIST.md)** - Breaking changes reference
+- **[basics/README.md](basics/README.md)** - Vue 3 basics learning guide
+- **[basics/composition-api-examples/README.md](basics/composition-api-examples/README.md)** - Composition API guide
+
+### Key Vue 3 Changes
+- `new Vue()` → `createApp()`
+- `Vue.component()` → `app.component()`
+- `$children` removed → use provide/inject
+- `$on/$off/$once` removed → use external event emitter or provide/inject
+- `.sync` modifier removed → use `v-model:propName`
+- Filters removed → use methods or computed
+- Vuex → Pinia (recommended for new projects)
+- vue-router 3 → vue-router 4
+- Webpack → Vite (recommended)
 
 ## GitHub Labels
 
@@ -165,5 +302,25 @@ The repository uses the following labels for organization and automation:
 - **dependencies** - Auto-applied to Dependabot PRs that update dependencies
 - **showcase** - Issues/PRs related to actively maintained showcase projects
 - **vue2-migration-pending** - Projects that need Vue 2 to Vue 3 migration
+- **vue3-migration-complete** - Projects successfully migrated to Vue 3
 
 These labels are referenced in `.github/dependabot.yml` and must exist for Dependabot to function properly.
+
+## Quick Start for New Contributors
+
+### Working with Vue 3 Basics
+1. Navigate to `basics/` directory
+2. Open any HTML file directly in browser (no build step needed)
+3. Check browser console for Vue devtools
+
+### Working with Showcase Projects
+1. Navigate to project directory (e.g., `cd showcase/concrete-calculator-v3`)
+2. Run `npm install`
+3. Run `npm run dev`
+4. Open browser to localhost URL shown
+
+### Understanding Project Status
+- **basics/** - All Vue 3, no build tools
+- **showcase/concrete-calculator-v3** - Vue 3 + Vite, production ready
+- **showcase/* (others)** - Vue 2, pending migration
+- **archive/** - Legacy projects, preserved for reference
